@@ -6,10 +6,6 @@ plugins {
 }
 
 repositories {
-    maven {
-        url = uri('https://oss.sonatype.org/content/repositories/snapshots')
-    }
-
     mavenCentral()
 }
 
@@ -21,25 +17,29 @@ group = 'com.grack'
 version = '1.10-SNAPSHOT'
 description = 'nanojson'
 
-
-
 java {
+    toolchain(t -> t.setLanguageVersion(JavaLanguageVersion.of(11)))
     withSourcesJar()
     withJavadocJar()
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+    CompileOptions
     options.debug = true
     options.compilerArgs << '-Xlint:all' << "-Werror"
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
 }
 
 tasks.withType(Javadoc) {
     options.encoding = 'UTF-8'
 }
 
-jar.manifest.attributes.put("Automatic-Module-Name", "com.grack.nanojson")
-jar.dependsOn(check)
+jar {
+    manifest.attributes.put("Automatic-Module-Name", "com.grack.nanojson")
+    jar.dependsOn(check)
+}
 
 checkstyle {
     configFile = rootProject.file("checkstyle.xml")
@@ -48,7 +48,7 @@ checkstyle {
 
 publishing {
     repositories.maven {
-        url mavenUrl
+        url = mavenUrl
         credentials {
             username = mavenUsername
             password = mavenPassword
@@ -57,8 +57,6 @@ publishing {
     }
     publications.create('maven', MavenPublication) {
         it.from components.getByName('java')
-        it.artifact sourcesJar
-        it.artifact javadocJar
     }
 }
 
