@@ -16,4 +16,5 @@
 	<suppress checks="InnerAssignment" files="JsonReader.java"/>
 
 	<suppress checks=".*" files="Users.java"/>
+	<suppress checks="(MissingJavadoc.*)|JavadocPackage" files=".+Test.java"/>
 </suppressions>
