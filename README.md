@@ -8,8 +8,8 @@ nanojson is dual-licensed under the MIT and Apache Public License.
 
 ## Get started
 
-  * Build: `mvn clean compile test jar:jar`
-  * Javadocs: `mvn javadoc:javadoc && open target/site/apidocs/index.html`
+  * Build: `./gradle jar`
+  * Javadocs: `./gradle javadoc && open build/docs/index.html`
  
 Add it to your maven pom.xml:
 
