@@ -24,7 +24,7 @@ import java.net.URL;
 
 /**
  * Simple JSON parser.
- * 
+ *
  * <pre>
  * Object json = {@link JsonParser}.any().from("{\"a\":[true,false], \"b\":1}");
  * Number json = ({@link Number}){@link JsonParser}.any().from("123.456e7");
@@ -49,13 +49,15 @@ public final class JsonParser {
 		private final Class<T> clazz;
 		private boolean lazyNumbers;
 
-		JsonParserContext(Class<T> clazz) {
+		private JsonParserContext(Class<T> clazz) {
 			this.clazz = clazz;
 		}
 
 		/**
 		 * Parses numbers lazily, allowing us to defer some of the cost of
 		 * number construction until later.
+		 *
+		 * @return this
 		 */
 		public JsonParserContext<T> withLazyNumbers() {
 			lazyNumbers = true;
@@ -64,6 +66,10 @@ public final class JsonParser {
 
 		/**
 		 * Parses the current JSON type from a {@link String}.
+		 *
+		 * @param s the String to parse
+		 * @return the parsed JSON value
+		 * @throws JsonParserException if the string could not be parsed
 		 */
 		public T from(String s) throws JsonParserException {
 			return new JsonParser(new JsonTokener(new StringReader(s)), lazyNumbers).parse(clazz);
@@ -71,6 +77,10 @@ public final class JsonParser {
 
 		/**
 		 * Parses the current` JSON type from a {@link Reader}.
+		 *
+		 * @param r the reader to parse from
+		 * @return the parsed JSON value
+		 * @throws JsonParserException if the read content could not be parsed
 		 */
 		public T from(Reader r) throws JsonParserException {
 			return new JsonParser(new JsonTokener(r), lazyNumbers).parse(clazz);
@@ -78,6 +88,10 @@ public final class JsonParser {
 
 		/**
 		 * Parses the current JSON type from a {@link URL}.
+		 *
+		 * @param url the URL to parse from
+		 * @return the parsed JSON value
+		 * @throws JsonParserException if the read content could not be parsed
 		 */
 		public T from(URL url) throws JsonParserException {
 			try {
@@ -94,6 +108,10 @@ public final class JsonParser {
 
 		/**
 		 * Parses the current JSON type from a {@link InputStream}. Detects the encoding from the input stream.
+		 *
+		 * @param stm the stream to parse from
+		 * @return the parsed JSON value
+		 * @throws JsonParserException if the read content could not be parsed
 		 */
 		public T from(InputStream stm) throws JsonParserException {
 			return new JsonParser(new JsonTokener(stm), lazyNumbers).parse(clazz);
@@ -107,10 +125,12 @@ public final class JsonParser {
 
 	/**
 	 * Parses a {@link JsonObject} from a source.
-	 * 
+	 *
 	 * <pre>
 	 * JsonObject json = {@link JsonParser}.object().from("{\"a\":[true,false], \"b\":1}");
 	 * </pre>
+	 *
+	 * @return a new Parser object configured for JsonObjects
 	 */
 	public static JsonParserContext<JsonObject> object() {
 		return new JsonParserContext<>(JsonObject.class);
@@ -118,10 +138,12 @@ public final class JsonParser {
 
 	/**
 	 * Parses a {@link JsonArray} from a source.
-	 * 
+	 *
 	 * <pre>
 	 * JsonArray json = {@link JsonParser}.array().from("[1, {\"a\":[true,false], \"b\":1}]");
 	 * </pre>
+	 *
+	 * @return a new Parser object configured for JsonArrays
 	 */
 	public static JsonParserContext<JsonArray> array() {
 		return new JsonParserContext<>(JsonArray.class);
@@ -130,11 +152,13 @@ public final class JsonParser {
 	/**
 	 * Parses any object from a source. For any valid JSON, returns either a null (for the JSON string 'null'), a
 	 * {@link String}, a {@link Number}, a {@link Boolean}, a {@link JsonObject} or a {@link JsonArray}.
-	 * 
+	 *
 	 * <pre>
 	 * Object json = {@link JsonParser}.any().from("{\"a\":[true,false], \"b\":1}");
 	 * Number json = ({@link Number}){@link JsonParser}.any().from("123.456e7");
 	 * </pre>
+	 *
+	 * @return a new Parser object not configured for any particular object
 	 */
 	public static JsonParserContext<Object> any() {
 		return new JsonParserContext<>(Object.class);
@@ -142,6 +166,11 @@ public final class JsonParser {
 
 	/**
 	 * Parse a single JSON value from the string, expecting an EOF at the end.
+	 *
+	 * @param <T> the type to be parsed
+	 * @param clazz the class representing the type to be parsed
+	 * @return the parsed json value
+	 * @throws JsonParserException if the input could not be parsed
 	 */
 	<T> T parse(Class<T> clazz) throws JsonParserException {
 		advanceToken();
@@ -157,6 +186,9 @@ public final class JsonParser {
 
 	/**
 	 * Starts parsing a JSON value at the current token position.
+	 *
+	 * @return the json value
+	 * @throws JsonParserException if the input could not be parsed
 	 */
 	private Object currentValue() throws JsonParserException {
 		// Only a value start token should appear when we're in the context of parsing a JSON value
@@ -168,6 +200,9 @@ public final class JsonParser {
 	/**
 	 * Consumes a token, first eating up any whitespace ahead of it. Note that number tokens are not necessarily valid
 	 * numbers.
+	 *
+	 * @return the type of the parsed token
+	 * @throws JsonParserException if the input could not be parsed
 	 */
 	private int advanceToken() throws JsonParserException {
 		token = tokener.advanceToToken();
@@ -233,6 +268,13 @@ public final class JsonParser {
 		return token;
 	}
 
+	/**
+	 * Tries to parse a number from the current tokener. Note That a returned number token might not
+	 * be convertible to a Number object.
+	 *
+	 * @return the parsed number
+	 * @throws JsonParserException if the input could not be parsed
+	 */
 	private Number parseNumber() throws JsonParserException {
 		String number = tokener.reusableBuffer.toString();
 

@@ -18,9 +18,9 @@ package com.grack.nanojson;
 //@formatter:off
 /**
  * JSON writer that emits JSON to a {@link String}.
- * 
+ *
  * Create this class using {@link JsonWriter#string()}.
- * 
+ *
  * <pre>
  * String json = JsonEmitter
  *     .indent("  ")
@@ -43,7 +43,9 @@ public final class JsonStringWriter extends JsonWriterBase<JsonStringWriter> {
 	}
 
 	/**
-	 * Completes this JSON writing session and returns the internal representation as a {@link String}.
+	 * Completes this JSON writing session.
+	 *
+	 * @return the internal representation as a {@link String}
 	 */
 	public String done() {
 		super.doneInternal();

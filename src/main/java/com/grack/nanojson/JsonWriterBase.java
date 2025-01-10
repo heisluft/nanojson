@@ -26,7 +26,7 @@ import java.util.Map;
  * Internal class that handles emitting to an {@link Appendable}. Users only see
  * the public subclasses, {@link JsonStringWriter} and
  * {@link JsonAppendableWriter}.
- * 
+ *
  * @param <SELF>
  *            A subclass of {@link JsonWriterBase}.
  */
@@ -390,7 +390,7 @@ class JsonWriterBase<SELF extends JsonWriterBase<SELF>> implements
 
 	/**
 	 * Ensures that the object is in the finished state.
-	 * 
+	 *
 	 * @throws JsonWriterException
 	 *             if the written JSON is not properly balanced, ie: all arrays
 	 *             and objects that were started have been properly ended.

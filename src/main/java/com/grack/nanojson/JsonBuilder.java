@@ -21,7 +21,7 @@ import java.util.Stack;
 
 /**
  * Builds a {@link JsonObject} or {@link JsonArray}.
- * 
+ *
  * @param <T>
  *            The type of JSON object to build.
  */
@@ -36,7 +36,9 @@ public final class JsonBuilder<T> implements JsonSink<JsonBuilder<T>> {
 	}
 
 	/**
-	 * Completes this builder, closing any unclosed objects and returns the built object.
+	 * Completes this builder, closing any unclosed objects.
+	 *
+	 * @return the built object
 	 */
 	public T done() {
 		return root;
