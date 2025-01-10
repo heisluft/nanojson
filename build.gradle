@@ -1,0 +1,68 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'signing'
+    id 'checkstyle'
+}
+
+repositories {
+    maven {
+        url = uri('https://oss.sonatype.org/content/repositories/snapshots')
+    }
+
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+}
+
+group = 'com.grack'
+version = '1.10-SNAPSHOT'
+description = 'nanojson'
+
+
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.debug = true
+    options.compilerArgs << '-Xlint:all' << "-Werror"
+}
+
+tasks.withType(Javadoc) {
+    options.encoding = 'UTF-8'
+}
+
+jar.manifest.attributes.put("Automatic-Module-Name", "com.grack.nanojson")
+jar.dependsOn(check)
+
+checkstyle {
+    configFile = rootProject.file("checkstyle.xml")
+    configProperties.put("basedir", projectDir)
+}
+
+publishing {
+    repositories.maven {
+        url mavenUrl
+        credentials {
+            username = mavenUsername
+            password = mavenPassword
+        }
+        authentication.withType(BasicAuthentication)
+    }
+    publications.create('maven', MavenPublication) {
+        it.from components.getByName('java')
+        it.artifact sourcesJar
+        it.artifact javadocJar
+    }
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications.maven
+}
