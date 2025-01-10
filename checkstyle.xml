@@ -57,6 +57,7 @@
 		/> <property name="minimum" value="0" /> <property name="maximum" value="0" 
 		/> <property name="message" value="Line has trailing spaces." /> </module> -->
 
+	<module name="JavadocPackage" />
 	<module name="TreeWalker">
 		<module name="SuppressionCommentFilter">
 			<property name="offCommentFormat" value="CHECKSTYLE_OFF\: ([\w\|]+)"/>
@@ -68,16 +69,31 @@
 
 		<!-- Checks for Javadoc comments. -->
 		<!-- See http://checkstyle.sf.net/config_javadoc.html -->
+		<module name="AtclauseOrder" />
+		<module name="InvalidJavadocPosition" />
+		<module name="JavadocBlockTagLocation" />
+		<module name="JavadocContentLocation" />
 		<module name="JavadocMethod">
-			<property name="accessModifiers" value="public" />
+			<property name="accessModifiers" value="public, protected" />
 			<property name="allowMissingParamTags" value="true" />
 			<property name="allowMissingReturnTag" value="true" />
 		</module>
+		<module name="JavadocMissingLeadingAsterisk" />
+		<module name="JavadocMissingWhitespaceAfterAsterisk" />
+		<module name="JavadocStyle">
+			<property name="checkEmptyJavadoc" value="true" />
+		</module>
 		<module name="JavadocType" />
 		<module name="JavadocVariable">
-			<property name="scope" value="public" />
+			<property name="scope" value="protected" />
 		</module>
-		<module name="JavadocStyle" />
+		<module name="MissingJavadocMethod">
+			<property name="scope" value="protected"/>
+		</module>
+		<module name="MissingJavadocPackage"/>
+		<module name="MissingJavadocType"/>
+		<module name="NonEmptyAtclauseDescription"/>
+		<module name="RequireEmptyLineBeforeBlockTagGroup"/>
 
 
 		<!-- Checks for Naming Conventions. -->

@@ -22,10 +22,10 @@ import java.io.OutputStream;
 //@formatter:off
 /**
  * JSON writer that emits JSON to a {@link Appendable}.
- * 
+ *
  * Create this class with {@link JsonWriter#on(Appendable)} or
  * {@link JsonWriter#on(OutputStream)}.
- * 
+ *
  * <pre>
  * OutputStream out = ...;
  * JsonWriter
@@ -57,7 +57,7 @@ public final class JsonAppendableWriter extends
 	/**
 	 * Closes this JSON writer and flushes the underlying {@link Appendable} if
 	 * it is also {@link Flushable}.
-	 * 
+	 *
 	 * @throws JsonWriterException
 	 *             if the underlying {@link Flushable} {@link Appendable} failed
 	 *             to flush.

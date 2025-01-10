@@ -33,6 +33,8 @@ public class JsonParserException extends Exception {
 
 	/**
 	 * Gets the 1-based line position of the error.
+	 *
+	 * @return the line in which the error occured
 	 */
 	public int getLinePosition() {
 		return linePos;
@@ -40,6 +42,8 @@ public class JsonParserException extends Exception {
 
 	/**
 	 * Gets the 1-based character position of the error.
+	 *
+	 * @return the 1-based character position of the error
 	 */
 	public int getCharPosition() {
 		return charPos;
@@ -47,6 +51,8 @@ public class JsonParserException extends Exception {
 	
 	/**
 	 * Gets the 0-based character offset of the error from the beginning of the string.
+	 *
+	 * @return the 0-based character offset
 	 */
 	public int getCharOffset() {
 		return charOffset;

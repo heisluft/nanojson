@@ -249,7 +249,7 @@ public final class JsonReader {
 	/**
 	 * Advance to the next value in this array or object. If no values remain,
 	 * return to the parent array or object.
-	 * 
+	 *
 	 * @return true if we still have values to read in this array or object,
 	 *         false if we have completed this object (and implicitly moved back
 	 *         to the parent array or object)
